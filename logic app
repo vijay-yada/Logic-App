@@ -1,0 +1,145 @@
+{
+    "properties": {
+        "provisioningState": "Succeeded",
+        "createdTime": "2021-07-19T06:49:59.6319065Z",
+        "changedTime": "2021-07-19T07:21:36.5593466Z",
+        "state": "Enabled",
+        "version": "08585749275889482311",
+        "accessEndpoint": "https://prod-26.northcentralus.logic.azure.com:443/workflows/7e6a409b59994856a847d7cc47e22cb1",
+        "definition": {
+            "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+            "contentVersion": "1.0.0.0",
+            "parameters": {
+                "$connections": {
+                    "defaultValue": {},
+                    "type": "Object"
+                }
+            },
+            "triggers": {
+                "When_a_new_tweet_is_posted": {
+                    "recurrence": {
+                        "frequency": "Second",
+                        "interval": 3
+                    },
+                    "splitOn": "@triggerBody()?['value']",
+                    "type": "ApiConnection",
+                    "inputs": {
+                        "host": {
+                            "connection": {
+                                "name": "@parameters('$connections')['twitter']['connectionId']"
+                            }
+                        },
+                        "method": "get",
+                        "path": "/onnewtweet",
+                        "queries": {
+                            "searchQuery": "#celebal , #connection"
+                        }
+                    }
+                }
+            },
+            "actions": {
+                "Send_email_(V2)_2": {
+                    "runAfter": {},
+                    "type": "ApiConnection",
+                    "inputs": {
+                        "body": {
+                            "Body": "<p>@{triggerBody()?['TweetText']}</p>",
+                            "Cc": "vijayalaxmi08020810@gmail.com",
+                            "Subject": "Tweeted By: @{triggerBody()?['TweetedBy']} Name: @{triggerBody()?['UserDetails']?['FullName']}",
+                            "To": "2018cscloudvijay6692@poornima.edu.in"
+                        },
+                        "host": {
+                            "connection": {
+                                "name": "@parameters('$connections')['gmail']['connectionId']"
+                            }
+                        },
+                        "method": "post",
+                        "path": "/v2/Mail"
+                    }
+                }
+            },
+            "outputs": {}
+        },
+        "parameters": {
+            "$connections": {
+                "value": {
+                    "gmail": {
+                        "connectionId": "/subscriptions/d8fac159-da11-4f27-97a1-265da3b6f06b/resourceGroups/Celebal_technology/providers/Microsoft.Web/connections/gmail",
+                        "connectionName": "gmail",
+                        "id": "/subscriptions/d8fac159-da11-4f27-97a1-265da3b6f06b/providers/Microsoft.Web/locations/northcentralus/managedApis/gmail"
+                    },
+                    "twitter": {
+                        "connectionId": "/subscriptions/d8fac159-da11-4f27-97a1-265da3b6f06b/resourceGroups/Celebal_technology/providers/Microsoft.Web/connections/twitter",
+                        "connectionName": "twitter",
+                        "id": "/subscriptions/d8fac159-da11-4f27-97a1-265da3b6f06b/providers/Microsoft.Web/locations/northcentralus/managedApis/twitter"
+                    }
+                }
+            }
+        },
+        "endpointsConfiguration": {
+            "workflow": {
+                "outgoingIpAddresses": [
+                    {
+                        "address": "168.62.248.37"
+                    },
+                    {
+                        "address": "157.55.210.61"
+                    },
+                    {
+                        "address": "157.55.212.238"
+                    },
+                    {
+                        "address": "52.162.208.216"
+                    },
+                    {
+                        "address": "52.162.213.231"
+                    },
+                    {
+                        "address": "65.52.10.183"
+                    },
+                    {
+                        "address": "65.52.9.96"
+                    },
+                    {
+                        "address": "65.52.8.225"
+                    }
+                ],
+                "accessEndpointIpAddresses": [
+                    {
+                        "address": "168.62.249.81"
+                    },
+                    {
+                        "address": "157.56.12.202"
+                    },
+                    {
+                        "address": "65.52.211.164"
+                    },
+                    {
+                        "address": "65.52.9.64"
+                    }
+                ]
+            },
+            "connector": {
+                "outgoingIpAddresses": [
+                    {
+                        "address": "52.162.107.160/28"
+                    },
+                    {
+                        "address": "52.162.242.161"
+                    },
+                    {
+                        "address": "65.52.218.230"
+                    },
+                    {
+                        "address": "52.162.126.4"
+                    }
+                ]
+            }
+        }
+    },
+    "id": "/subscriptions/d8fac159-da11-4f27-97a1-265da3b6f06b/resourceGroups/Celebal_technology/providers/Microsoft.Logic/workflows/celebal-technology-summer",
+    "name": "celebal-technology-summer",
+    "type": "Microsoft.Logic/workflows",
+    "location": "northcentralus",
+    "tags": {}
+}
